@@ -37,9 +37,9 @@ public class WeightedOITRenderFeature : ScriptableRendererFeature
 
         CleanupResources();
 
-        int gridX = 100;
-        int gridY = 100;
-        float spacing = 0.1f;
+        int gridX = 25;
+        int gridY = 25;
+        float spacing = 0.5f;
         instanceCount = gridX * gridY;
 
 
@@ -57,7 +57,7 @@ public class WeightedOITRenderFeature : ScriptableRendererFeature
                 y * spacing
             );
 
-            matrices[i] = Matrix4x4.TRS(p, Quaternion.identity, Vector3.one * 0.05f);
+            matrices[i] = Matrix4x4.TRS(p, Quaternion.identity, Vector3.one * 0.1f);
         }
 
         weightedOITAccumulationPass = new WeightedOITAccumulationPass(weightedOITAccumulationMaterial, Mesh, matrices);
@@ -70,14 +70,15 @@ public class WeightedOITRenderFeature : ScriptableRendererFeature
     {
         RenderTargetBuffer.Setup(renderingData.cameraData.cameraTargetDescriptor);
 
-        if (RenderTargetBuffer.ColorAttachments == null || RenderTargetBuffer.ColorAttachments.Length == 0)
+        if (RenderTargetBuffer.OITColorAttachments == null || RenderTargetBuffer.OITColorAttachments.Length == 0)
         {
             return;
         }
 
 
         if(weightedOITAccumulationPass != null){
-            weightedOITAccumulationPass.ConfigureTarget(RenderTargetBuffer.ColorAttachments, RenderTargetBuffer.DepthAttachment);
+            //todo reveal
+            weightedOITAccumulationPass.ConfigureTarget(RenderTargetBuffer.OITColorAttachments, RenderTargetBuffer.DepthAttachment);
             weightedOITAccumulationPass.ConfigureClear(ClearFlag.All, Color.clear);
         }
 

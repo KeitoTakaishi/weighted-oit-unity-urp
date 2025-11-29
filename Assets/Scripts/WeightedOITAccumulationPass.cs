@@ -33,8 +33,8 @@ public class WeightedOITAccumulationPass : ScriptableRenderPass
 
         CommandBuffer cmd = CommandBufferPool.Get(profilerTag);
         RenderTargetIdentifier[] mrt = new RenderTargetIdentifier[2];
-        mrt[0] = RenderTargetBuffer.ColorAttachments[0];
-        mrt[1] = RenderTargetBuffer.ColorAttachments[1];
+        mrt[0] = RenderTargetBuffer.OITColorAttachments[0];
+        mrt[1] = RenderTargetBuffer.OITColorAttachments[1];
         cmd.SetRenderTarget(mrt, RenderTargetBuffer.DepthAttachment);
         //material.SetVector("_CaemraPosition", Camera.main.transform.position);
         cmd.DrawMeshInstanced(srcMesh, 0, material, 0, matrices, instanceCount);

@@ -20,7 +20,7 @@ class BlitPass : ScriptableRenderPass
         CommandBuffer cmd = CommandBufferPool.Get("Custom Blit Color Texture Pass");
 
         source = renderingData.cameraData.renderer.cameraColorTargetHandle;
-        destination = MyRenderTargetBuffer.CameraColorCopy;
+        destination = RenderTargetBuffer.CameraColorCopy;
 
 
         if (source == null)
