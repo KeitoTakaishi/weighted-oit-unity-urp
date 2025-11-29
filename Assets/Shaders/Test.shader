@@ -18,6 +18,8 @@ Shader "Custom/WeightedOIT"
             // MRT用のブレンド設定
             // ColorAttachment0 (Accum): 加算ブレンド
             Blend 0 One One
+            //Blend SrcAlpha OneMinusSrcAlpha
+
             // ColorAttachment1 (Reveal): 乗算ブレンド
             Blend 1 Zero OneMinusSrcColor
 
@@ -74,8 +76,9 @@ Shader "Custom/WeightedOIT"
                 float weight = _Color.a * clamp(0.03 / (1e-5 + pow(input.depth / 200.0, 4.0)), 1e-2, 3e3);
 
                 // Accum (rgb * alpha * weight, alpha * weight)
-                //output.accum = float4(_Color.rgb * _Color.a, 0.1f);
-                output.accum = float4(1.0, 0.0, 0.0, 0.1f);
+                output.accum = float4(_Color.rgb * _Color.a, _Color.a);
+                //output.accum = float4(_Color.rgb, _Color.a);
+                //output.accum = float4(1.0, 0.0, 0.0, 0.1f);
 
                 // Reveal (1 - alpha)
                 output.reveal = float4(_Color.a, _Color.a, _Color.a, _Color.a);

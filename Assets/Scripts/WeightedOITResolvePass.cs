@@ -38,8 +38,8 @@ public class WeightedOITResolvePass : ScriptableRenderPass
         if (material == null) return;
         CommandBuffer cmd = CommandBufferPool.Get("WeightedOITResolvePass");
         //cmd.SetGlobalTexture("_CameraColorTexture", RenderTargetBuffer.CameraColorCopy);
-        cmd.SetGlobalTexture("_MyAccumulationTexture", RenderTargetBuffer.AcumulationRT);
-        cmd.SetGlobalTexture("_MyRevealageTexture", RenderTargetBuffer.RevealageRT);
+        cmd.SetGlobalTexture("_AccumTexture", RenderTargetBuffer.AcumulationRT);
+        cmd.SetGlobalTexture("_RevealTexture", RenderTargetBuffer.RevealageRT);
 
         //default Color Render TargetÇ…çáê¨åãâ ÇèoóÕ
         RTHandle cameraTargetHandle = renderingData.cameraData.renderer.cameraColorTargetHandle;

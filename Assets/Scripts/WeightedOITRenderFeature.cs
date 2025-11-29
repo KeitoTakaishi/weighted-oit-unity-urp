@@ -39,7 +39,7 @@ public class WeightedOITRenderFeature : ScriptableRendererFeature
 
         int gridX = 25;
         int gridY = 25;
-        float spacing = 0.5f;
+        float spacing = 1.0f;
         instanceCount = gridX * gridY;
 
 
@@ -57,7 +57,7 @@ public class WeightedOITRenderFeature : ScriptableRendererFeature
                 y * spacing
             );
 
-            matrices[i] = Matrix4x4.TRS(p, Quaternion.identity, Vector3.one * 0.1f);
+            matrices[i] = Matrix4x4.TRS(p, Quaternion.identity, Vector3.one * 0.5f);
         }
 
         weightedOITAccumulationPass = new WeightedOITAccumulationPass(weightedOITAccumulationMaterial, Mesh, matrices);
