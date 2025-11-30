@@ -18,17 +18,11 @@ public class RenderTargetBuffer
     static RTHandle m_MyDepthTexture;
     static RTHandle m_CameraColorCopy;
 
-    //Pure‚ÈOITRendering‚Ìo—Í‚Æ2‰ñ1Blur‚³‚ê‚½Œ‹‰Ê‚ð‘‚«ž‚Þ
-    static RTHandle m_OITRenderTexture;
-
-
-
     public static RTHandle AcumulationRT => acumulationRT;
     public static RTHandle RevealageRT => revealageRT;
 
     public static RTHandle MyDepthTexture => m_MyDepthTexture;
     public static RTHandle CameraColorCopy => m_CameraColorCopy;
-    public static RTHandle OITRenderTexture => m_OITRenderTexture;
 
 
     public static RTHandle[] OITColorAttachments { get; private set; }
@@ -65,7 +59,6 @@ public class RenderTargetBuffer
 
         RenderingUtils.ReAllocateIfNeeded(ref m_MyDepthTexture, depthDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "_MyDepthTexture");
         RenderingUtils.ReAllocateIfNeeded(ref m_CameraColorCopy, colorDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "_CameraColorCopyTexture");
-        RenderingUtils.ReAllocateIfNeeded(ref m_OITRenderTexture, oitRenderDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "_OITRenderTexture");
 
         OITColorAttachments = new[] { acumulationRT, revealageRT };
         DepthAttachment = m_MyDepthTexture;
@@ -87,12 +80,9 @@ public class RenderTargetBuffer
         m_MyDepthTexture = null;
 
 
+
         RTHandles.Release(CameraColorCopy);
         m_CameraColorCopy = null;
-
-        RTHandles.Release(OITRenderTexture);
-        m_OITRenderTexture = null;
-
 
     }
 }

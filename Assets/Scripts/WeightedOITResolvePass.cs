@@ -29,7 +29,7 @@ public class WeightedOITResolvePass : ScriptableRenderPass
     public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
     {
         //ConfigureInput(ScriptableRenderPassInput.Color);
-        ConfigureTarget(renderingData.cameraData.renderer.cameraColorTargetHandle, renderingData.cameraData.renderer.cameraDepthTargetHandle);
+        //ConfigureTarget(renderingData.cameraData.renderer.cameraColorTargetHandle, renderingData.cameraData.renderer.cameraDepthTargetHandle);
     }
 
     public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)

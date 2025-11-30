@@ -84,9 +84,7 @@ public class WeightedOITRenderFeature : ScriptableRendererFeature
 
         if (weightedOITResolveShader != null)
         {
-            //weightedOITResolvePass.Setup(MyRenderTargetBuffer.OITRenderTexture);
-            weightedOITResolvePass.ConfigureTarget(RenderTargetBuffer.OITRenderTexture, RenderTargetBuffer.DepthAttachment);
-            weightedOITResolvePass.ConfigureClear(ClearFlag.All, Color.clear);
+            weightedOITResolvePass.ConfigureTarget(renderingData.cameraData.renderer.cameraColorTargetHandle, renderingData.cameraData.renderer.cameraDepthTargetHandle);
         }
     }
 

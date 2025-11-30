@@ -47,8 +47,6 @@ public class WeightedOITAccumulationPass : ScriptableRenderPass
         mrt[0] = RenderTargetBuffer.AcumulationRT;
         mrt[1] = RenderTargetBuffer.RevealageRT;
         cmd.SetRenderTarget(mrt, RenderTargetBuffer.DepthAttachment);
-
-
         //material.SetVector("_CaemraPosition", Camera.main.transform.position);
 
         cmd.DrawMeshInstanced(srcMesh, 0, material, 0, matrices, instanceCount);
