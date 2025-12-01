@@ -20,7 +20,6 @@ class BlitPass : ScriptableRenderPass
         CommandBuffer cmd = CommandBufferPool.Get("Custom Blit Color Texture Pass");
 
         source = renderingData.cameraData.renderer.cameraColorTargetHandle;
-        destination = RenderTargetBuffer.CameraColorCopy;
 
 
         if (source == null)
@@ -32,24 +31,19 @@ class BlitPass : ScriptableRenderPass
         if (destination == null)
         {
             Debug.LogWarning("CopyColorPass: destination is null");
-            //return;
         }
 
         if (source.rt == null)
         {
             Debug.LogWarning("CopyColorPass: source.rt is null");
-            //return;
         }
 
         if (destination.rt == null)
         {
             Debug.LogWarning("CopyColorPass: destination.rt is null");
-            //return;
         }
 
-        // Step 7 の結果を、Step 8 のクリアが発生する前に自前 RT にコピー
         Blitter.BlitCameraTexture(cmd, source, destination);
-
         context.ExecuteCommandBuffer(cmd);
         CommandBufferPool.Release(cmd);
     }
