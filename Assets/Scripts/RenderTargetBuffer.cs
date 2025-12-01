@@ -15,15 +15,12 @@ public class RenderTargetBuffer
     static RTHandle acumulationRT;
     static RTHandle revealageRT;
 
-    static RTHandle m_MyDepthTexture;
-    static RTHandle m_CameraColorCopy;
+    static RTHandle depthTexture;
 
     public static RTHandle AcumulationRT => acumulationRT;
     public static RTHandle RevealageRT => revealageRT;
 
-    public static RTHandle MyDepthTexture => m_MyDepthTexture;
-    public static RTHandle CameraColorCopy => m_CameraColorCopy;
-
+    public static RTHandle DepthTexture => depthTexture;
 
     public static RTHandle[] OITColorAttachments { get; private set; }
     public static RTHandle DepthAttachment { get; private set; }
@@ -52,16 +49,13 @@ public class RenderTargetBuffer
         oitRenderDesc.autoGenerateMips = false;
 
 
-
-        // このメソッド自体が「サイズが違う場合だけ再生成」してくれる
         RenderingUtils.ReAllocateIfNeeded(ref acumulationRT, accumDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "AcumulationTexture");
         RenderingUtils.ReAllocateIfNeeded(ref revealageRT, revealDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "RevealTexture");
 
-        RenderingUtils.ReAllocateIfNeeded(ref m_MyDepthTexture, depthDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "_MyDepthTexture");
-        RenderingUtils.ReAllocateIfNeeded(ref m_CameraColorCopy, colorDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "_CameraColorCopyTexture");
+        RenderingUtils.ReAllocateIfNeeded(ref depthTexture, depthDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "_MyDepthTexture");
 
         OITColorAttachments = new[] { acumulationRT, revealageRT };
-        DepthAttachment = m_MyDepthTexture;
+        DepthAttachment = depthTexture;
     }
 
     public static void Dispose()
@@ -76,13 +70,9 @@ public class RenderTargetBuffer
         RTHandles.Release(revealageRT);
         revealageRT = null;
 
-        RTHandles.Release(MyDepthTexture);
-        m_MyDepthTexture = null;
+        RTHandles.Release(DepthTexture);
+        depthTexture = null;
 
-
-
-        RTHandles.Release(CameraColorCopy);
-        m_CameraColorCopy = null;
 
     }
 }
