@@ -11,14 +11,16 @@ public class WeightedOITAccumulationPass : ScriptableRenderPass
     private Mesh srcMesh;
     private Matrix4x4[] matrices;
     private int instanceCount;
+    private GraphicsBuffer paramsBuffer;
 
 
-    public WeightedOITAccumulationPass(Material mat, Mesh mesh, Matrix4x4[] matrices)
+    public WeightedOITAccumulationPass(Material mat, Mesh mesh, Matrix4x4[] matrices, GraphicsBuffer paramsBuffer)
     {
         this.material = mat;
         this.srcMesh = mesh;
         this.matrices = matrices;
         this.instanceCount = matrices.Length;
+        this.paramsBuffer = paramsBuffer;
         renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
 
     }
@@ -47,6 +49,10 @@ public class WeightedOITAccumulationPass : ScriptableRenderPass
         mrt[0] = RenderTargetBuffer.AcumulationRT;
         mrt[1] = RenderTargetBuffer.RevealageRT;
         cmd.SetRenderTarget(mrt, RenderTargetBuffer.DepthAttachment);
+        if (paramsBuffer != null)
+        {
+            cmd.SetGlobalBuffer("paramsBuffer", paramsBuffer);
+        }
         //material.SetVector("_CaemraPosition", Camera.main.transform.position);
 
         cmd.DrawMeshInstanced(srcMesh, 0, material, 0, matrices, instanceCount);

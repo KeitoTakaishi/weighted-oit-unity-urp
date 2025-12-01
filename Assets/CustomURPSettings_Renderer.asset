@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   weightedOITAccumulationMaterial: {fileID: 2100000, guid: 2bb817604e6b56f4ebcfddc4e5bab9c2, type: 2}
+  alphaBlendMaterial: {fileID: 2100000, guid: fe40c4b35d8b252448bfec1934eaacf9, type: 2}
   weightedOITResolveShader: {fileID: 4800000, guid: 6936fbe6493827e4aad24016e0c7753b, type: 3}
-  Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  UseOit: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
