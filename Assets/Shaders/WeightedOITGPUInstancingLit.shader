@@ -111,14 +111,12 @@ Shader "Custom/WeightedOIT_Lit"
 
                 FragOutput output;
 
-                // ライティング計算の準備
                 InputData inputData = (InputData)0;
                 inputData.positionWS = input.positionWS;
                 inputData.normalWS = normalize(input.normalWS);
                 inputData.viewDirectionWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
                 inputData.shadowCoord = TransformWorldToShadowCoord(input.positionWS);
 
-                // サーフェスデータの設定
                 SurfaceData surfaceData = (SurfaceData)0;
                 half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
                 surfaceData.albedo = texColor.rgb;
@@ -129,26 +127,21 @@ Shader "Custom/WeightedOIT_Lit"
                 surfaceData.emission = 0;
                 surfaceData.occlusion = 1;
 
-                // ライティング計算（Fog、Shadowなし版）
                 Light mainLight = GetMainLight();
 
-                // Lambert拡散反射
                 float3 normal = inputData.normalWS;
                 float3 lightDir = mainLight.direction;
                 float NdotL = saturate(dot(normal, lightDir));
 
-                // 環境光 + メインライト
                 float3 ambient = SampleSH(normal);
                 float3 diffuse = mainLight.color * NdotL;
 
-                // Specular（Blinn-Phong簡易版）
                 float3 viewDir = inputData.viewDirectionWS;
                 float3 halfDir = normalize(lightDir + viewDir);
                 float NdotH = saturate(dot(normal, halfDir));
                 float specularPower = exp2(10 * _Smoothness + 1);
                 float3 specular = mainLight.color * pow(NdotH, specularPower) * _Smoothness;
 
-                // 追加ライトの計算
                 #ifdef _ADDITIONAL_LIGHTS
                 uint pixelLightCount = GetAdditionalLightsCount();
                 for (uint lightIndex = 0u; lightIndex < pixelLightCount; ++lightIndex)
@@ -164,7 +157,6 @@ Shader "Custom/WeightedOIT_Lit"
                 }
                 #endif
 
-                // 最終色の計算
                 float3 finalColor = surfaceData.albedo * (ambient + diffuse) + specular * (1.0 - _Metallic);
                 float alpha = _BaseColor.a;
                 alpha = input.alpha;
@@ -172,14 +164,9 @@ Shader "Custom/WeightedOIT_Lit"
 
 
 
-                // Weighted OITの重み計算
                 float z = input.depth;
                 float weight = alpha * clamp(10.0 / (1e-5 + abs(z)/5.0 + pow(abs(z), 2.0)/200.0), 1e-2, 3e3);
-
-                // Accum: premultiplied color * weight
                 output.accum = float4(finalColor * alpha, alpha) * weight;
-
-                // Reveal: alpha
                 output.reveal = float4(alpha, alpha, alpha, alpha);
 
                 return output;

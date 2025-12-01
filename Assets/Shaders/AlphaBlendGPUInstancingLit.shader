@@ -106,14 +106,12 @@ Shader "Custom/AlphaBlendInstanced_Lit"
                 UNITY_SETUP_INSTANCE_ID(input);
 
 
-                // 入力データ
                 InputData inputData = (InputData)0;
                 inputData.positionWS = input.positionWS;
                 inputData.normalWS   = normalize(input.normalWS);
                 inputData.viewDirectionWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
                 inputData.shadowCoord = TransformWorldToShadowCoord(input.positionWS);
 
-                // Surface
                 SurfaceData surfaceData = (SurfaceData)0;
                 half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
                 surfaceData.albedo = texColor.rgb;
@@ -124,9 +122,6 @@ Shader "Custom/AlphaBlendInstanced_Lit"
                 surfaceData.emission  = 0;
                 surfaceData.occlusion = 1;
 
-                // --------------------
-                // Lighting
-                // --------------------
                 Light mainLight = GetMainLight();
 
                 float3 normal   = inputData.normalWS;
@@ -148,7 +143,6 @@ Shader "Custom/AlphaBlendInstanced_Lit"
                     pow(NdotH, specularPower) *
                     _Smoothness;
 
-                // Additional Lights
                 #ifdef _ADDITIONAL_LIGHTS
                 uint lightCount = GetAdditionalLightsCount();
                 for (uint i = 0; i < lightCount; ++i)
@@ -169,9 +163,6 @@ Shader "Custom/AlphaBlendInstanced_Lit"
                     surfaceData.albedo * (ambient + diffuse)
                     + specular * (1.0 - _Metallic);
 
-                // --------------------
-                // 通常の透過出力
-                // --------------------
                 float alpha = surfaceData.alpha;
                 alpha = input.alpha;
                 //return float4(finalColor, surfaceData.alpha);
