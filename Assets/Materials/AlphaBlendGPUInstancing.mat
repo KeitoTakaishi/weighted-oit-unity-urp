@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WeightedOITGPUInstancing
-  m_Shader: {fileID: 4800000, guid: 50301452a0a1bc3469afb87eea421b94, type: 3}
+  m_Name: AlphaBlendGPUInstancing
+  m_Shader: {fileID: 4800000, guid: e35e6f7aff1af0c4e94bc8e8fc180a2e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
