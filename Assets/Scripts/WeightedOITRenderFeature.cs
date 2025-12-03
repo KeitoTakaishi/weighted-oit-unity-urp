@@ -179,5 +179,11 @@ public class WeightedOITRenderFeature : ScriptableRendererFeature
         weightedOITResolvePass = null;
         alphaBlendPass?.Cleanup();
         alphaBlendPass = null;
+
+        paramsBuffer?.Release();
+        paramsBuffer = null;
+
+        matrices = null;
+        paramsData = null;
     }
 }
