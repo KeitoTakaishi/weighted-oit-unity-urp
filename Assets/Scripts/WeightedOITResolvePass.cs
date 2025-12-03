@@ -8,7 +8,6 @@ public class WeightedOITResolvePass : ScriptableRenderPass
 {
     private Material material;
     private Shader shader;
-    private RTHandle blurRenderTarget;
 
     public WeightedOITResolvePass(Shader shader)
     {
@@ -37,13 +36,12 @@ public class WeightedOITResolvePass : ScriptableRenderPass
 
         if (material == null) return;
         CommandBuffer cmd = CommandBufferPool.Get("WeightedOITResolvePass");
-        //cmd.SetGlobalTexture("_CameraColorTexture", RenderTargetBuffer.CameraColorCopy);
-        cmd.SetGlobalTexture("_AccumTexture", RenderTargetBuffer.AcumulationRT);
+        cmd.SetGlobalTexture("_AccumTexture", RenderTargetBuffer.AccumulationRT);
         cmd.SetGlobalTexture("_RevealTexture", RenderTargetBuffer.RevealageRT);
 
         //default Color Render TargetÇ…çáê¨åãâ ÇèoóÕ
         RTHandle cameraTargetHandle = renderingData.cameraData.renderer.cameraColorTargetHandle;
-        Blitter.BlitCameraTexture(cmd, RenderTargetBuffer.AcumulationRT, cameraTargetHandle, material, 0);
+        Blitter.BlitCameraTexture(cmd, RenderTargetBuffer.AccumulationRT, cameraTargetHandle, material, 0);
         context.ExecuteCommandBuffer(cmd);
         CommandBufferPool.Release(cmd);
     }

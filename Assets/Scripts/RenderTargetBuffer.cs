@@ -12,12 +12,12 @@ public class RenderTargetBuffer
         public static readonly int NormalTex = Shader.PropertyToID("_NormalTex");
     }
 
-    static RTHandle acumulationRT;
+    static RTHandle accumulationRT;
     static RTHandle revealageRT;
 
     static RTHandle depthTexture;
 
-    public static RTHandle AcumulationRT => acumulationRT;
+    public static RTHandle AccumulationRT => accumulationRT;
     public static RTHandle RevealageRT => revealageRT;
 
     public static RTHandle DepthTexture => depthTexture;
@@ -39,22 +39,14 @@ public class RenderTargetBuffer
         depthDesc.useMipMap = false;
         depthDesc.autoGenerateMips = false;
 
-        var colorDesc = new RenderTextureDescriptor(desc.width, desc.height, RenderTextureFormat.ARGBHalf, 0);
-        colorDesc.useMipMap = false;
-        colorDesc.autoGenerateMips = false;
 
 
-        var oitRenderDesc = new RenderTextureDescriptor(desc.width, desc.height, RenderTextureFormat.ARGBHalf, 0);
-        oitRenderDesc.useMipMap = false;
-        oitRenderDesc.autoGenerateMips = false;
-
-
-        RenderingUtils.ReAllocateIfNeeded(ref acumulationRT, accumDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "AcumulationTexture");
+        RenderingUtils.ReAllocateIfNeeded(ref accumulationRT, accumDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "AcumulationTexture");
         RenderingUtils.ReAllocateIfNeeded(ref revealageRT, revealDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "RevealTexture");
 
-        RenderingUtils.ReAllocateIfNeeded(ref depthTexture, depthDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "_MyDepthTexture");
+        RenderingUtils.ReAllocateIfNeeded(ref depthTexture, depthDesc, FilterMode.Point, TextureWrapMode.Clamp, name: "DepthTexture");
 
-        OITColorAttachments = new[] { acumulationRT, revealageRT };
+        OITColorAttachments = new[] { accumulationRT, revealageRT };
         DepthAttachment = depthTexture;
     }
 
@@ -63,8 +55,8 @@ public class RenderTargetBuffer
         DepthAttachment = null;
         OITColorAttachments = null;
 
-        RTHandles.Release(acumulationRT);
-        acumulationRT = null;
+        RTHandles.Release(accumulationRT);
+        accumulationRT = null;
 
 
         RTHandles.Release(revealageRT);

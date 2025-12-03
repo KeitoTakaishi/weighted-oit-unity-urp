@@ -35,25 +35,22 @@ public class WeightedOITAccumulationPass : ScriptableRenderPass
 
         CommandBuffer cmd = CommandBufferPool.Get(profilerTag);
 
-
-
-        //clear accum
-        cmd.SetRenderTarget(RenderTargetBuffer.AcumulationRT, RenderTargetBuffer.DepthAttachment);
+        cmd.SetRenderTarget(RenderTargetBuffer.AccumulationRT, RenderTargetBuffer.DepthAttachment);
         cmd.ClearRenderTarget(true, true, Color.clear);
-        //clear revealage
         cmd.SetRenderTarget(RenderTargetBuffer.RevealageRT, RenderTargetBuffer.DepthAttachment);
         cmd.ClearRenderTarget(false, true, Color.white);
 
 
         RenderTargetIdentifier[] mrt = new RenderTargetIdentifier[2];
-        mrt[0] = RenderTargetBuffer.AcumulationRT;
+        mrt[0] = RenderTargetBuffer.AccumulationRT;
         mrt[1] = RenderTargetBuffer.RevealageRT;
         cmd.SetRenderTarget(mrt, RenderTargetBuffer.DepthAttachment);
         if (paramsBuffer != null)
         {
             cmd.SetGlobalBuffer("paramsBuffer", paramsBuffer);
         }
-        //material.SetVector("_CaemraPosition", Camera.main.transform.position);
+
+
 
         cmd.DrawMeshInstanced(srcMesh, 0, material, 0, matrices, instanceCount);
         context.ExecuteCommandBuffer(cmd);
